@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Артём Сапрыкин — Product Manager</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Manrope:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #080810;
+    --surface: #0f0f1a;
+    --surface2: #171726;
+    --accent: #7b6ff0;
+    --accent3: #3ddba0;
+    --text: #eeeef5;
+    --muted: #6e6e88;
+    --border: rgba(123,111,240,0.18);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { background: var(--bg); color: var(--text); font-family: 'Manrope', sans-serif; font-size: 16px; line-height: 1.6; overflow-x: hidden; }
+
+  body::after {
+    content: ''; position: fixed; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+    pointer-events: none; z-index: 9998;
+  }
+
+  .cursor { width: 7px; height: 7px; background: var(--accent); border-radius: 50%; position: fixed; pointer-events: none; z-index: 10000; transform: translate(-50%,-50%); mix-blend-mode: screen; transition: width .15s, height .15s; }
+  .cursor-ring { width: 32px; height: 32px; border: 1px solid rgba(123,111,240,0.45); border-radius: 50%; position: fixed; pointer-events: none; z-index: 10000; transform: translate(-50%,-50%); transition: width .2s, height .2s, border-color .2s; }
+
+  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 200; padding: 22px 52px; display: flex; justify-content: space-between; align-items: center; background: rgba(8,8,16,0.78); backdrop-filter: blur(24px); border-bottom: 1px solid rgba(123,111,240,0.07); }
+  .nav-logo { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 17px; letter-spacing: -.3px; color: var(--text); text-decoration: none; }
+  .nav-logo em { color: var(--accent); font-style: normal; }
+  .nav-links { display: flex; gap: 36px; list-style: none; }
+  .nav-links a { color: var(--muted); text-decoration: none; font-size: 13px; font-weight: 600; letter-spacing: .4px; transition: color .2s; }
+  .nav-links a:hover { color: var(--text); }
+
+  /* HERO */
+  .hero { min-height: 100vh; display: flex; align-items: center; padding: 130px 52px 90px; position: relative; overflow: hidden; }
+  .hero-orb1 { position: absolute; width: 900px; height: 700px; background: radial-gradient(ellipse, rgba(123,111,240,0.13) 0%, transparent 65%); right: -120px; top: -80px; pointer-events: none; animation: orbF 10s ease-in-out infinite; }
+  .hero-orb2 { position: absolute; width: 500px; height: 500px; background: radial-gradient(ellipse, rgba(61,219,160,0.07) 0%, transparent 65%); left: -80px; bottom: -60px; pointer-events: none; animation: orbF 14s ease-in-out infinite reverse; }
+  @keyframes orbF { 0%,100%{transform:translate(0,0)} 50%{transform:translate(28px,-18px)} }
+  .hero-grid { position: absolute; inset: 0; background-image: linear-gradient(rgba(123,111,240,0.033) 1px,transparent 1px), linear-gradient(90deg,rgba(123,111,240,0.033) 1px,transparent 1px); background-size: 56px 56px; }
+
+  .hero-content { position: relative; max-width: 1100px; margin: 0 auto; width: 100%; }
+
+  .badge { display: inline-flex; align-items: center; gap: 9px; background: rgba(123,111,240,0.1); border: 1px solid rgba(123,111,240,0.28); color: var(--accent); font-size: 11px; font-weight: 700; letter-spacing: 1.8px; text-transform: uppercase; padding: 7px 15px; border-radius: 40px; margin-bottom: 36px; animation: fadeUp .55s ease both; }
+  .badge .dot { width: 6px; height: 6px; background: var(--accent3); border-radius: 50%; animation: blink 2s ease-in-out infinite; }
+  @keyframes blink { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.4;transform:scale(1.4)} }
+
+  h1 { font-family: 'Syne', sans-serif; font-size: clamp(58px,9vw,110px); font-weight: 800; line-height: .92; letter-spacing: -4px; margin-bottom: 36px; animation: fadeUp .65s .1s ease both; }
+  h1 .stroke { display: block; -webkit-text-stroke: 1.5px rgba(123,111,240,.45); color: transparent; }
+
+  .hero-lead { font-size: 17px; color: var(--muted); max-width: 560px; font-weight: 400; line-height: 1.75; margin-bottom: 52px; animation: fadeUp .65s .2s ease both; }
+  .hero-lead strong { color: var(--text); font-weight: 600; }
+
+  .hero-metrics { display: inline-flex; margin-bottom: 56px; background: var(--surface); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; animation: fadeUp .65s .3s ease both; }
+  .metric { padding: 20px 36px; display: flex; flex-direction: column; align-items: center; gap: 4px; position: relative; }
+  .metric+.metric::before { content:''; position:absolute; left:0; top:20%; bottom:20%; width:1px; background:var(--border); }
+  .metric-val { font-family: 'Syne', sans-serif; font-size: 28px; font-weight: 800; letter-spacing: -1px; line-height: 1; }
+  .metric-val em { color: var(--accent); font-style: normal; }
+  .metric-label { font-size: 11px; color: var(--muted); font-weight: 600; letter-spacing: .3px; white-space: nowrap; }
+
+  .hero-actions { display: flex; gap: 14px; align-items: center; animation: fadeUp .65s .4s ease both; }
+  .btn { display: inline-flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 600; text-decoration: none; border-radius: 10px; padding: 13px 28px; transition: all .2s; letter-spacing: .2px; }
+  .btn-fill { background: var(--accent); color: #fff; box-shadow: 0 0 32px rgba(123,111,240,.35); }
+  .btn-fill:hover { transform: translateY(-2px); box-shadow: 0 8px 40px rgba(123,111,240,.55); }
+  .btn-ghost { color: var(--muted); border: 1px solid var(--border); }
+  .btn-ghost:hover { color: var(--text); border-color: rgba(123,111,240,.4); background: rgba(123,111,240,.06); }
+
+  /* MARQUEE */
+  .marquee-wrap { overflow: hidden; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 14px 0; background: rgba(123,111,240,.025); }
+  .marquee { display: flex; animation: scroll 26s linear infinite; }
+  .m-item { flex-shrink: 0; display: flex; align-items: center; font-family: 'Syne', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); padding: 0 28px; gap: 28px; }
+  .m-item::after { content:''; width:1px; height:12px; background:var(--border); flex-shrink:0; }
+  @keyframes scroll { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+
+  /* SECTIONS */
+  section { padding: 110px 52px; }
+  .inner { max-width: 1100px; margin: 0 auto; }
+  .sec-head { display: flex; align-items: center; gap: 18px; margin-bottom: 72px; }
+  .sec-n { font-family: 'Syne', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 2.5px; color: var(--accent); }
+  .sec-t { font-family: 'Syne', sans-serif; font-size: clamp(26px,3.5vw,44px); font-weight: 800; letter-spacing: -1.5px; }
+  .sec-rule { flex: 1; height: 1px; background: var(--border); }
+
+  /* ABOUT */
+  .about { background: var(--surface); }
+  .about-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start; }
+  .about-text p { color: var(--muted); font-size: 15px; line-height: 1.8; margin-bottom: 18px; }
+  .about-text p strong { color: var(--text); font-weight: 600; }
+  .about-traits { display: flex; flex-wrap: wrap; gap: 9px; margin-top: 28px; }
+  .trait { font-size: 13px; font-weight: 600; padding: 8px 15px; border-radius: 8px; background: var(--surface2); border: 1px solid rgba(255,255,255,.06); color: var(--text); }
+  .about-card { background: var(--surface2); border: 1px solid var(--border); border-radius: 20px; padding: 36px; position: relative; overflow: hidden; }
+  .about-card::before { content:''; position:absolute; top:-60px; right:-60px; width:200px; height:200px; background:radial-gradient(circle,rgba(123,111,240,.14) 0%,transparent 70%); }
+  .av-row { display: flex; align-items: center; gap: 14px; padding: 14px 0; border-bottom: 1px solid rgba(255,255,255,.04); }
+  .av-row:last-child { border-bottom: none; }
+  .av-icon { width: 36px; height: 36px; background: rgba(123,111,240,.12); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0; }
+  .av-label { font-size: 10px; color: var(--muted); font-weight: 700; letter-spacing: .5px; text-transform: uppercase; margin-bottom: 3px; }
+  .av-val { font-size: 13px; font-weight: 600; color: var(--text); line-height: 1.4; }
+
+  /* CASES */
+  .cases-bg { background: var(--bg); }
+  .cases-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .case-card { background: var(--surface); border: 1px solid var(--border); border-radius: 18px; padding: 38px 34px; position: relative; overflow: hidden; transition: transform .3s, border-color .3s, box-shadow .3s; }
+  .case-card.wide { grid-column: span 2; }
+  .case-card:hover { transform: translateY(-5px); border-color: rgba(123,111,240,.45); box-shadow: 0 20px 60px rgba(0,0,0,.3); }
+  .case-card::after { content:''; position:absolute; top:0; left:0; right:0; height:2px; background:linear-gradient(90deg,var(--accent),var(--accent3)); opacity:0; transition:opacity .3s; }
+  .case-card:hover::after { opacity:1; }
+  .case-num { font-size: 11px; font-weight: 700; letter-spacing: 1.5px; color: var(--muted); text-transform: uppercase; margin-bottom: 14px; }
+  .case-title { font-family: 'Syne', sans-serif; font-size: 20px; font-weight: 700; letter-spacing: -.3px; line-height: 1.25; margin-bottom: 14px; }
+  .case-body { color: var(--muted); font-size: 14px; line-height: 1.7; margin-bottom: 26px; }
+  .case-pill { display: inline-flex; align-items: center; gap: 8px; background: rgba(61,219,160,.08); border: 1px solid rgba(61,219,160,.22); color: var(--accent3); font-size: 13px; font-weight: 700; padding: 8px 16px; border-radius: 8px; }
+  .case-pill::before { content:'↑'; }
+
+  /* SKILLS */
+  .skills-bg { background: var(--surface); }
+  .skills-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; }
+  .sg { margin-bottom: 42px; }
+  .sg-title { font-size: 10px; font-weight: 700; letter-spacing: 2.5px; text-transform: uppercase; color: var(--accent); margin-bottom: 16px; }
+  .tag-cloud { display: flex; flex-wrap: wrap; gap: 8px; }
+  .tag { font-size: 13px; font-weight: 500; padding: 8px 15px; border-radius: 8px; background: var(--surface2); border: 1px solid rgba(255,255,255,.06); color: var(--text); transition: border-color .2s, background .2s; }
+  .tag:hover { border-color: rgba(123,111,240,.4); background: rgba(123,111,240,.07); }
+  .tag.sm { font-size: 12px; color: var(--muted); padding: 6px 12px; }
+
+  /* TIMELINE */
+  .xp-bg { background: var(--bg); }
+  .tl { position: relative; padding-left: 44px; }
+  .tl::before { content:''; position:absolute; left:6px; top:8px; bottom:0; width:1px; background:linear-gradient(to bottom,var(--accent),rgba(123,111,240,.08)); }
+  .tl-item { position: relative; padding-bottom: 60px; }
+  .tl-item:last-child { padding-bottom: 0; }
+  .tl-dot { position: absolute; left: -41px; top: 8px; width: 13px; height: 13px; background: var(--bg); border: 2px solid var(--accent); border-radius: 50%; transition: background .3s; }
+  .tl-item:hover .tl-dot { background: var(--accent); }
+  .tl-head { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; margin-bottom: 5px; }
+  .tl-co { font-family: 'Syne', sans-serif; font-size: 22px; font-weight: 800; letter-spacing: -.5px; }
+  .tl-when { font-size: 11px; font-weight: 700; color: var(--muted); background: var(--surface); border: 1px solid var(--border); padding: 3px 10px; border-radius: 40px; }
+  .tl-role { font-size: 13px; font-weight: 600; color: var(--accent); letter-spacing: .3px; margin-bottom: 16px; }
+  .tl-list { list-style: none; display: flex; flex-direction: column; gap: 7px; }
+  .tl-list li { font-size: 14px; color: var(--muted); padding-left: 18px; position: relative; line-height: 1.55; }
+  .tl-list li::before { content:'—'; position:absolute; left:0; color:rgba(123,111,240,.35); font-weight:700; }
+
+  /* CONTACT */
+  .contact-bg { background: var(--surface); }
+  .contact-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start; }
+  .contact-left h2 { font-family: 'Syne', sans-serif; font-size: clamp(36px,5vw,64px); font-weight: 800; letter-spacing: -2px; line-height: 1; margin-bottom: 20px; }
+  .contact-left p { color: var(--muted); font-size: 15px; line-height: 1.75; max-width: 380px; }
+  .contact-links { display: flex; flex-direction: column; gap: 12px; }
+  .contact-link { display: flex; align-items: center; gap: 16px; background: var(--surface2); border: 1px solid var(--border); border-radius: 14px; padding: 18px 22px; text-decoration: none; color: var(--text); transition: transform .2s, border-color .2s, box-shadow .2s; }
+  .contact-link:hover { transform: translateX(6px); border-color: rgba(123,111,240,.4); box-shadow: 0 8px 30px rgba(0,0,0,.2); }
+  .cl-icon { width: 42px; height: 42px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+  .cl-icon.em { background: rgba(123,111,240,.15); }
+  .cl-icon.tg { background: rgba(0,136,204,.15); }
+  .cl-icon.li { background: rgba(10,102,194,.15); }
+  .cl-icon.cv { background: rgba(255,255,255,.05); }
+  .cl-body { display: flex; flex-direction: column; gap: 2px; flex: 1; }
+  .cl-type { font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--muted); }
+  .cl-val { font-size: 14px; font-weight: 600; color: rgba(123,111,240,.6); font-style: italic; font-size: 13px; }
+  .cl-arrow { color: var(--muted); font-size: 17px; transition: transform .2s, color .2s; }
+  .contact-link:hover .cl-arrow { transform: translateX(4px); color: var(--accent); }
+
+  footer { padding: 36px 52px; border-top: 1px solid var(--border); background: var(--bg); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; }
+  .footer-brand { font-family: 'Syne', sans-serif; font-size: 16px; font-weight: 800; letter-spacing: -.3px; color: var(--text); }
+  .footer-brand em { color: var(--accent); font-style: normal; }
+  .footer-cr { font-size: 12px; color: rgba(255,255,255,.12); font-weight: 500; }
+
+  @keyframes fadeUp { from{opacity:0;transform:translateY(22px)} to{opacity:1;transform:translateY(0)} }
+  .reveal { opacity: 0; transform: translateY(28px); transition: opacity .65s ease, transform .65s ease; }
+  .reveal.in { opacity: 1; transform: none; }
+
+  @media(max-width:860px){
+    nav{padding:18px 24px}
+    .nav-links{display:none}
+    .hero,section{padding-left:24px;padding-right:24px}
+    h1{letter-spacing:-2px}
+    .hero-metrics{flex-wrap:wrap}
+    .about-layout,.skills-layout,.contact-layout{grid-template-columns:1fr;gap:40px}
+    .cases-grid{grid-template-columns:1fr}
+    .case-card.wide{grid-column:span 1}
+    footer{padding:28px 24px}
+  }
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cur"></div>
+<div class="cursor-ring" id="ring"></div>
+
+<nav>
+  <a href="#home" class="nav-logo">А.<em>С.</em></a>
+  <ul class="nav-links">
+    <li><a href="#about">О себе</a></li>
+    <li><a href="#cases">Кейсы</a></li>
+    <li><a href="#skills">Навыки</a></li>
+    <li><a href="#experience">Опыт</a></li>
+    <li><a href="#contact">Контакты</a></li>
+  </ul>
+</nav>
+
+<section class="hero" id="home">
+  <div class="hero-orb1"></div>
+  <div class="hero-orb2"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-content">
+    <div class="badge"><span class="dot"></span>Открыт к новым ролям</div>
+    <h1>Артём<br><span class="stroke">Сапрыкин</span></h1>
+    <p class="hero-lead">
+      Product Manager — превращаю сложные процессы в рабочие продукты.<br>
+      <strong>Discovery → MVP → метрики → рост.</strong><br>
+      Специализация: AI-автоматизация и внутренние платформы.
+    </p>
+    <div class="hero-metrics">
+      <div class="metric">
+        <div class="metric-val">3<em>+</em></div>
+        <div class="metric-label">лет в продукте</div>
+      </div>
+      <div class="metric">
+        <div class="metric-val">1M<em>₽</em></div>
+        <div class="metric-label">экономия / год</div>
+      </div>
+      <div class="metric">
+        <div class="metric-val">15K<em>+</em></div>
+        <div class="metric-label">пользователей</div>
+      </div>
+    </div>
+    <div class="hero-actions">
+      <a href="#contact" class="btn btn-fill">Написать мне</a>
+      <a href="#cases" class="btn btn-ghost">Посмотреть кейсы →</a>
+    </div>
+  </div>
+</section>
+
+<div class="marquee-wrap">
+  <div class="marquee">
+    <div class="m-item">Product Management</div>
+    <div class="m-item">Discovery · JTBD</div>
+    <div class="m-item">AI & Automation</div>
+    <div class="m-item">Scrum / Kanban</div>
+    <div class="m-item">User Funnels</div>
+    <div class="m-item">Roadmap & Backlog</div>
+    <div class="m-item">Stakeholder Management</div>
+    <div class="m-item">MVP Launch</div>
+    <div class="m-item">LLM / Chatbots</div>
+    <div class="m-item">Product Management</div>
+    <div class="m-item">Discovery · JTBD</div>
+    <div class="m-item">AI & Automation</div>
+    <div class="m-item">Scrum / Kanban</div>
+    <div class="m-item">User Funnels</div>
+    <div class="m-item">Roadmap & Backlog</div>
+    <div class="m-item">Stakeholder Management</div>
+    <div class="m-item">MVP Launch</div>
+    <div class="m-item">LLM / Chatbots</div>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section class="about" id="about">
+  <div class="inner">
+    <div class="sec-head reveal">
+      <div class="sec-n">00</div>
+      <div class="sec-t">Немного о себе</div>
+      <div class="sec-rule"></div>
+    </div>
+    <div class="about-layout">
+      <div class="about-text reveal">
+        <p>Меня зовут Артём, я <strong>Product Manager</strong> из Москвы. Занимаюсь цифровыми продуктами с 2022 года — начинал с community management, вырос до управления внутренними платформами и AI-автоматизацией.</p>
+        <p>Мне важно понимать <strong>зачем</strong> мы делаем продукт, не только что. Поэтому всегда начинаю с discovery — разбираюсь в потребностях пользователей и стейкхолдеров, прежде чем браться за backlog.</p>
+        <p>Вне работы увлекаюсь <strong>фотографией, кинематографом и музыкой</strong> — это тренирует насмотренность и внимание к деталям. Ещё играю в спортивную мафию.</p>
+        <div class="about-traits">
+          <span class="trait">Системное мышление</span>
+          <span class="trait">Ориентация на результат</span>
+          <span class="trait">Быстрое погружение в домен</span>
+          <span class="trait">Честная коммуникация</span>
+          <span class="trait">Remote-first</span>
+        </div>
+      </div>
+      <div class="about-card reveal">
+        <div class="av-row">
+          <div class="av-icon">📍</div>
+          <div>
+            <div class="av-label">Локация</div>
+            <div class="av-val">Москва, Россия</div>
+          </div>
+        </div>
+        <div class="av-row">
+          <div class="av-icon">💬</div>
+          <div>
+            <div class="av-label">Языки</div>
+            <div class="av-val">Русский (родной) · English B2</div>
+          </div>
+        </div>
+        <div class="av-row">
+          <div class="av-icon">🎓</div>
+          <div>
+            <div class="av-label">Образование</div>
+            <div class="av-val">ВГУ · Инф. системы, 2024<br>ВГЛТУ · Бухучёт, 2026</div>
+          </div>
+        </div>
+        <div class="av-row">
+          <div class="av-icon">🎯</div>
+          <div>
+            <div class="av-label">Формат работы</div>
+            <div class="av-val">Полная занятость · Удалёнка</div>
+          </div>
+        </div>
+        <div class="av-row">
+          <div class="av-icon">🎨</div>
+          <div>
+            <div class="av-label">Хобби</div>
+            <div class="av-val">Фото · Кино · Музыка · Мафия</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CASES -->
+<section class="cases-bg" id="cases">
+  <div class="inner">
+    <div class="sec-head reveal">
+      <div class="sec-n">01</div>
+      <div class="sec-t">Кейсы и результаты</div>
+      <div class="sec-rule"></div>
+    </div>
+    <div class="cases-grid">
+      <div class="case-card wide reveal">
+        <div class="case-num">Кейс 01 · Автоматизация / AI · FutureToday</div>
+        <div class="case-title">Внедрение AI-инструментов и автоматизаций в масштабе компании</div>
+        <div class="case-body">Инициировал и реализовал автоматизацию ручных операций в четырёх отделах: HR, рекрутинг, Operations, Media. Интегрировал LLM-инструменты и ботов в рабочие процессы — снизил трудозатраты, ускорил time-to-result, убрал узкие места в пайплайнах.</div>
+        <div class="case-pill">Экономия &gt;1 000 000 ₽ / год</div>
+      </div>
+      <div class="case-card reveal">
+        <div class="case-num">Кейс 02 · Чат-боты / UX</div>
+        <div class="case-title">Коммуникационная платформа для рекрутинговых проектов</div>
+        <div class="case-body">Разработал и запустил чат-ботов для сопровождения участников найма. Построил seamless user flow: вход → сценарии → обратная связь.</div>
+        <div class="case-pill">15 000+ участников</div>
+      </div>
+      <div class="case-card reveal">
+        <div class="case-num">Кейс 03 · Community / Growth</div>
+        <div class="case-title">Масштабирование Discord-коммьюнити Antilatency</div>
+        <div class="case-body">Создал с нуля и вырастил активное сообщество. Настроил helpflow, систематизировал фидбэк, выстроил систему вовлечённости и удержания.</div>
+        <div class="case-pill">500+ активных участников</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section class="skills-bg" id="skills">
+  <div class="inner">
+    <div class="sec-head reveal">
+      <div class="sec-n">02</div>
+      <div class="sec-t">Навыки и стек</div>
+      <div class="sec-rule"></div>
+    </div>
+    <div class="skills-layout">
+      <div>
+        <div class="sg reveal">
+          <div class="sg-title">Продуктовые компетенции</div>
+          <div class="tag-cloud">
+            <span class="tag">Трансформация продуктов</span>
+            <span class="tag">Customer Journey</span>
+            <span class="tag">Воронки пользователей</span>
+            <span class="tag">Discovery / JTBD</span>
+            <span class="tag">Пользовательские интервью</span>
+            <span class="tag">Конкурентный анализ</span>
+            <span class="tag">Roadmap & Backlog</span>
+            <span class="tag">Scrum / Kanban</span>
+            <span class="tag">MVP Launch & Iterations</span>
+            <span class="tag">Stakeholder Management</span>
+          </div>
+        </div>
+        <div class="sg reveal">
+          <div class="sg-title">AI & Автоматизация</div>
+          <div class="tag-cloud">
+            <span class="tag">ChatGPT / LLM</span>
+            <span class="tag">Zapier · Albato</span>
+            <span class="tag">Чат-боты</span>
+            <span class="tag">YandexCloud</span>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="sg reveal">
+          <div class="sg-title">Инструменты</div>
+          <div class="tag-cloud">
+            <span class="tag sm">Jira</span><span class="tag sm">Notion</span><span class="tag sm">Asana</span>
+            <span class="tag sm">Figma</span><span class="tag sm">Miro</span>
+            <span class="tag sm">Google Workspace</span>
+            <span class="tag sm">UniSender</span><span class="tag sm">PostgreSQL</span>
+          </div>
+        </div>
+        <div class="sg reveal">
+          <div class="sg-title">Метрики</div>
+          <div class="tag-cloud">
+            <span class="tag">KPI / OKR</span>
+            <span class="tag">Операционная эффективность</span>
+            <span class="tag">Сокращение ФОТ</span>
+            <span class="tag">Funnel Analysis</span>
+          </div>
+        </div>
+        <div class="sg reveal">
+          <div class="sg-title">Языки</div>
+          <div class="tag-cloud">
+            <span class="tag">Русский — родной</span>
+            <span class="tag">English — B2</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section class="xp-bg" id="experience">
+  <div class="inner">
+    <div class="sec-head reveal">
+      <div class="sec-n">03</div>
+      <div class="sec-t">Опыт работы</div>
+      <div class="sec-rule"></div>
+    </div>
+    <div class="tl">
+      <div class="tl-item reveal">
+        <div class="tl-dot"></div>
+        <div class="tl-head">
+          <div class="tl-co">FutureToday</div>
+          <div class="tl-when">Jan 2024 — настоящее время</div>
+        </div>
+        <div class="tl-role">Product Manager · Удалённо, Москва</div>
+        <ul class="tl-list">
+          <li>Управлял портфелем внутренних продуктов: HR, рекрутинг, Operations, Media</li>
+          <li>Собирал требования от нескольких департаментов → единый продуктовый бэклог</li>
+          <li>Запускал MVP микросервисов: roadmap, backlog, приоритизация, итерации</li>
+          <li>Внедрял AI-инструменты и автоматизации — снизил ручной труд, ускорил процессы</li>
+          <li>Разработал чат-ботов для рекрутинговых проектов (15 000+ участников)</li>
+          <li>Выстраивал регулярную коммуникацию со стейкхолдерами: статус, риски, сроки</li>
+          <li>Результат: экономия &gt;1 000 000 ₽/год за счёт автоматизации</li>
+        </ul>
+      </div>
+      <div class="tl-item reveal">
+        <div class="tl-dot"></div>
+        <div class="tl-head">
+          <div class="tl-co">MySeven</div>
+          <div class="tl-when">Jun 2022 — May 2023</div>
+        </div>
+        <div class="tl-role">Product Manager · Удалённо, ОАЭ</div>
+        <ul class="tl-list">
+          <li>Discovery: конкурентный анализ, пользовательские сценарии, гипотезы</li>
+          <li>Проектирование UX: прототипы, согласование flows</li>
+          <li>Delivery в Scrum: планирование, grooming, daily, review/retro</li>
+        </ul>
+      </div>
+      <div class="tl-item reveal">
+        <div class="tl-dot"></div>
+        <div class="tl-head">
+          <div class="tl-co">Antilatency</div>
+          <div class="tl-when">Nov 2021 — Jan 2024</div>
+        </div>
+        <div class="tl-role">Community Manager · Удалённо, Лимассол</div>
+        <ul class="tl-list">
+          <li>Создал и масштабировал Discord-коммьюнити до 500+ активных участников</li>
+          <li>Настроил helpflow, сократил время обработки запросов</li>
+          <li>Voice of Customer: систематизировал фидбэк, формировал продуктовые предложения</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact-bg" id="contact">
+  <div class="inner">
+    <div class="sec-head reveal">
+      <div class="sec-n">04</div>
+      <div class="sec-t">Контакты</div>
+      <div class="sec-rule"></div>
+    </div>
+    <div class="contact-layout">
+      <div class="contact-left reveal">
+        <h2>Давайте<br>работать<br>вместе.</h2>
+        <p>Открыт к продуктовым ролям в командах, которые строят реальные продукты и ценят измеримый результат. Напишите — отвечу быстро.</p>
+      </div>
+      <div class="contact-links reveal">
+        <a href="mailto:ваша@почта.ru" class="contact-link">
+          <div class="cl-icon em">✉️</div>
+          <div class="cl-body">
+            <div class="cl-type">Email</div>
+            <div class="cl-val">← вставьте свою почту</div>
+          </div>
+          <div class="cl-arrow">→</div>
+        </a>
+        <a href="https://t.me/ваш_ник" class="contact-link" target="_blank">
+          <div class="cl-icon tg">✈️</div>
+          <div class="cl-body">
+            <div class="cl-type">Telegram</div>
+            <div class="cl-val">← @ваш_никнейм</div>
+          </div>
+          <div class="cl-arrow">→</div>
+        </a>
+        <a href="https://linkedin.com/in/ваш-профиль" class="contact-link" target="_blank">
+          <div class="cl-icon li">💼</div>
+          <div class="cl-body">
+            <div class="cl-type">LinkedIn</div>
+            <div class="cl-val">← ваша ссылка на профиль</div>
+          </div>
+          <div class="cl-arrow">→</div>
+        </a>
+        <a href="#" class="contact-link">
+          <div class="cl-icon cv">📄</div>
+          <div class="cl-body">
+            <div class="cl-type">Резюме</div>
+            <div class="cl-val">← ссылка на PDF-резюме</div>
+          </div>
+          <div class="cl-arrow">↓</div>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-brand">А.<em>С.</em> — Product Manager</div>
+  <div class="footer-cr">© 2025 Артём Сапрыкин</div>
+</footer>
+
+<script>
+  // Cursor
+  const cur=document.getElementById('cur'), ring=document.getElementById('ring');
+  let mx=0,my=0,rx=0,ry=0;
+  document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;});
+  (function tick(){
+    cur.style.left=mx+'px'; cur.style.top=my+'px';
+    rx+=(mx-rx)*.13; ry+=(my-ry)*.13;
+    ring.style.left=rx+'px'; ring.style.top=ry+'px';
+    requestAnimationFrame(tick);
+  })();
+  document.querySelectorAll('a,button').forEach(el=>{
+    el.addEventListener('mouseenter',()=>{ring.style.width='50px';ring.style.height='50px';ring.style.borderColor='rgba(123,111,240,.7)';});
+    el.addEventListener('mouseleave',()=>{ring.style.width='32px';ring.style.height='32px';ring.style.borderColor='rgba(123,111,240,.45)';});
+  });
+
+  // Reveal
+  const io=new IntersectionObserver(entries=>{
+    entries.forEach((e,i)=>{
+      if(e.isIntersecting){setTimeout(()=>e.target.classList.add('in'),i*60);io.unobserve(e.target);}
+    });
+  },{threshold:.08});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+</script>
+</body>
+</html>
